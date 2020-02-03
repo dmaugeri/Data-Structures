@@ -177,7 +177,7 @@ public class SinglyLinkedList<T> implements LinkedList<T>, Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new SinglyLinkedListIterator<>(this);
     }
 
     private SingleLinkedNode<T> getNode(int index) {
