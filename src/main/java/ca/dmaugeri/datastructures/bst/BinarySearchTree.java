@@ -39,4 +39,30 @@ public class BinarySearchTree<T extends Comparable<T>> {
         consumer.accept(node.getValue());
         inOrderTraversal(node.getRight(), consumer);
     }
+
+    public void preOrderTraversal(Consumer<T> consumer) {
+        preOrderTraversal(root, consumer);
+    }
+
+    private void preOrderTraversal(BinarySearchTreeNode<T> node, Consumer<T> consumer) {
+        if (node == null) {
+            return;
+        }
+        consumer.accept(node.getValue());
+        preOrderTraversal(node.getLeft(), consumer);
+        preOrderTraversal(node.getRight(), consumer);
+    }
+
+    public void postOrderTraversal(Consumer<T> consumer) {
+        postOrderTraversal(root, consumer);
+    }
+
+    private void postOrderTraversal(BinarySearchTreeNode<T> node, Consumer<T> consumer) {
+        if (node == null) {
+            return;
+        }
+        postOrderTraversal(node.getLeft(), consumer);
+        postOrderTraversal(node.getRight(), consumer);
+        consumer.accept(node.getValue());
+    }
 }
