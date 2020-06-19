@@ -100,4 +100,135 @@ public class BinarySearchTreeTest {
         inOrder.verify(consumer).accept(40);
         inOrder.verify(consumer).accept(20);
     }
+
+    @Test
+    public void shouldProperlyDeleteWhenNodeHasNoLeafChildren() {
+        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
+        binarySearchTree.insert(20);
+        binarySearchTree.insert(12);
+        binarySearchTree.insert(40);
+        binarySearchTree.insert(6);
+
+        binarySearchTree.delete(6);
+
+        Consumer<Integer> inOrderConsumer = Mockito.mock(Consumer.class);
+        InOrder inOrder = Mockito.inOrder(inOrderConsumer);
+
+        binarySearchTree.inOrderTraversal(inOrderConsumer);
+
+        inOrder.verify(inOrderConsumer).accept(12);
+        inOrder.verify(inOrderConsumer).accept(20);
+        inOrder.verify(inOrderConsumer).accept(40);
+        Mockito.verify(inOrderConsumer, Mockito.times(3)).accept(Mockito.anyInt());
+    }
+
+    @Test
+    public void shouldProperlyDeleteWhenNodeOnlyHasASingleRightChild() {
+        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
+
+//                20
+//              /    \
+//             12    40
+//               \
+//               15
+//              /  \
+//             13  17
+        binarySearchTree.insert(20);
+        binarySearchTree.insert(12);
+        binarySearchTree.insert(40);
+        binarySearchTree.insert(15);
+        binarySearchTree.insert(13);
+        binarySearchTree.insert(17);
+
+        binarySearchTree.delete(12);
+
+
+        Consumer<Integer> inOrderConsumer = Mockito.mock(Consumer.class);
+        InOrder inOrder = Mockito.inOrder(inOrderConsumer);
+
+        binarySearchTree.inOrderTraversal(inOrderConsumer);
+
+        inOrder.verify(inOrderConsumer).accept(13);
+        inOrder.verify(inOrderConsumer).accept(15);
+        inOrder.verify(inOrderConsumer).accept(17);
+        inOrder.verify(inOrderConsumer).accept(20);
+        inOrder.verify(inOrderConsumer).accept(40);
+        Mockito.verify(inOrderConsumer, Mockito.times(5)).accept(Mockito.anyInt());
+    }
+
+    @Test
+    public void shouldProperlyDeleteWhenNodeOnlyHasASingleLeftChild() {
+        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
+
+//                20
+//              /    \
+//             12    40
+//                  /
+//                 30
+//                /  \
+//               25   31
+        binarySearchTree.insert(20);
+        binarySearchTree.insert(12);
+        binarySearchTree.insert(40);
+        binarySearchTree.insert(30);
+        binarySearchTree.insert(25);
+        binarySearchTree.insert(31);
+
+
+        binarySearchTree.delete(40);
+
+
+        Consumer<Integer> inOrderConsumer = Mockito.mock(Consumer.class);
+        InOrder inOrder = Mockito.inOrder(inOrderConsumer);
+
+        binarySearchTree.inOrderTraversal(inOrderConsumer);
+
+        inOrder.verify(inOrderConsumer).accept(12);
+        inOrder.verify(inOrderConsumer).accept(20);
+        inOrder.verify(inOrderConsumer).accept(25);
+        inOrder.verify(inOrderConsumer).accept(30);
+        inOrder.verify(inOrderConsumer).accept(31);
+
+        Mockito.verify(inOrderConsumer, Mockito.times(5)).accept(Mockito.anyInt());
+    }
+
+    @Test
+    public void shouldProperlyDeleteWhenNodeHasTwoChildren() {
+        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
+
+//                  20
+//                /    \
+//              12      40
+//                   /      \
+//                 30       50
+//                /  \    /   \
+//              25    31 45    52
+        binarySearchTree.insert(20);
+        binarySearchTree.insert(12);
+        binarySearchTree.insert(40);
+        binarySearchTree.insert(30);
+        binarySearchTree.insert(25);
+        binarySearchTree.insert(31);
+        binarySearchTree.insert(50);
+        binarySearchTree.insert(45);
+        binarySearchTree.insert(52);
+
+        binarySearchTree.delete(40);
+
+
+        Consumer<Integer> inOrderConsumer = Mockito.mock(Consumer.class);
+        InOrder inOrder = Mockito.inOrder(inOrderConsumer);
+
+        binarySearchTree.inOrderTraversal(inOrderConsumer);
+
+        inOrder.verify(inOrderConsumer).accept(12);
+        inOrder.verify(inOrderConsumer).accept(20);
+        inOrder.verify(inOrderConsumer).accept(25);
+        inOrder.verify(inOrderConsumer).accept(30);
+        inOrder.verify(inOrderConsumer).accept(31);
+        inOrder.verify(inOrderConsumer).accept(45);
+        inOrder.verify(inOrderConsumer).accept(50);
+        inOrder.verify(inOrderConsumer).accept(52);
+        Mockito.verify(inOrderConsumer, Mockito.times(8)).accept(Mockito.anyInt());
+    }
 }

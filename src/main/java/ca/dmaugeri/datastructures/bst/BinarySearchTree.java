@@ -27,6 +27,45 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return subRoot;
     }
 
+    public void delete(T element) {
+        root = delete(root, element);
+    }
+
+    private BinarySearchTreeNode<T> delete(BinarySearchTreeNode<T> node, T element) {
+        if (node == null) {
+            return null;
+        }
+
+        if (element.compareTo(node.getValue()) < 0) {
+            node.setLeft(delete(node.getLeft(), element));
+        } else if (element.compareTo(node.getValue()) > 0) {
+            node.setRight(delete(node.getRight(), element));
+        } else {
+            // we found the node to delete
+
+            // if they only have one child we can just return the child
+            if (node.getLeft() == null) {
+                return node.getRight();
+            } else if (node.getRight() == null) {
+                return node.getLeft();
+            }
+
+            BinarySearchTreeNode<T> minNode = findMinNode(node.getRight());
+            node.setValue(minNode.getValue());
+            node.setRight(delete(node.getRight(), minNode.getValue()));
+        }
+
+        return node;
+    }
+
+    public BinarySearchTreeNode<T> findMinNode(BinarySearchTreeNode<T> node) {
+        if (node.getLeft() == null) {
+            return node;
+        }
+        return findMinNode(node.getLeft());
+    }
+
+
     public void inOrderTraversal(Consumer<T> consumer) {
         inOrderTraversal(root, consumer);
     }
