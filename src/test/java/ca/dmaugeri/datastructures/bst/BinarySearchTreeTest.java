@@ -1,9 +1,11 @@
 package ca.dmaugeri.datastructures.bst;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class BinarySearchTreeTest {
@@ -120,6 +122,29 @@ public class BinarySearchTreeTest {
         inOrder.verify(inOrderConsumer).accept(20);
         inOrder.verify(inOrderConsumer).accept(40);
         Mockito.verify(inOrderConsumer, Mockito.times(3)).accept(Mockito.anyInt());
+    }
+
+    @Test
+    public void shouldProperlyFindTheCorrectNode() {
+        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
+
+//                20
+//              /    \
+//             12    40
+//               \
+//               15
+//              /  \
+//             13  17
+        binarySearchTree.insert(20);
+        binarySearchTree.insert(12);
+        binarySearchTree.insert(40);
+        binarySearchTree.insert(15);
+        binarySearchTree.insert(13);
+        binarySearchTree.insert(17);
+
+        BinarySearchTreeNode<Integer> actual = binarySearchTree.findNode(15);
+        Assert.assertEquals(Optional.of(15), Optional.of(actual.getValue()));
+
     }
 
     @Test

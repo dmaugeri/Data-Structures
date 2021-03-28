@@ -65,6 +65,25 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return findMinNode(node.getLeft());
     }
 
+    public BinarySearchTreeNode<T> findNode(T value) {
+        return findNodeByRoot(root, value);
+    }
+
+    private BinarySearchTreeNode<T> findNodeByRoot(BinarySearchTreeNode<T> root, T value) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.getValue() == value) {
+            return root;
+        }
+
+        if (root.getValue().compareTo(value) < 0) {
+            return findNodeByRoot(root.getRight(), value);
+        } else {
+            return findNodeByRoot(root.getLeft(), value);
+        }
+    }
 
     public void inOrderTraversal(Consumer<T> consumer) {
         inOrderTraversal(root, consumer);
